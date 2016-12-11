@@ -1,5 +1,9 @@
-var webpack = require('webpack');
+/**
+ webpack for gulp-webpack
+ created by PLDaily
+*/
 
+var webpack = require('webpack');
 
 module.exports = {
 	entry: './public/app.js',

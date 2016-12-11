@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.14.0",
+    "gulp-md5-plus": "^0.2.5",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
   },
