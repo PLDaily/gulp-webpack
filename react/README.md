@@ -9,5 +9,5 @@ $ gulp dev
 ```
 3.发布
 ```git
-$ gulp
+$ gulp 
 ```

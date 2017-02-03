@@ -8,42 +8,53 @@ var webpack = require('webpack-stream');
 var connect = require('gulp-connect');
 var uglify = require('gulp-uglify');
 var md5 = require('gulp-md5-plus');
+var clean = require('gulp-clean');
 
 
-gulp.task('webpack', function() {
-	return gulp.src('./app.js')
-		.pipe(webpack(require('./webpack.config.js')))
-		.pipe(gulp.dest('./project/js'))
-		.pipe(connect.reload())
+gulp.task('webpack',['build.img'], function() {
+  return gulp.src('./src/main.js')
+    .pipe(webpack(require('./webpack.config.js')))
+    .pipe(gulp.dest('./dist/js'))
+    .pipe(connect.reload())
+
 })
 
 gulp.task('watch', function (done) {
-    gulp.watch('public/**/*', ['webpack','build.index'])
+    return gulp.watch('src/**/*', ['webpack'])
         .on('end', done);
 });
 
-gulp.task('script',['webpack'], function() {
-  return gulp.src('./project/js/*.js')
+gulp.task('script', ['webpack'], function() {
+  return gulp.src('./dist/js/*.js')
     .pipe(uglify())
-    .pipe(md5(10, './project/*.html'))
-    .pipe(gulp.dest('./project/js'))
-    
+    .pipe(md5(10, './dist/*.html'))
+    .pipe(gulp.dest('./dist/js'))
 })
 
-gulp.task('webserver', function() {
+gulp.task('webserver', ['build.index'], function() {
   connect.server({
     livereload: true,
-    root: './project'
+    root: './dist'
   });
 });
 
-gulp.task('build.index', function(){
-  return gulp.src('./public/index.html')
-    .pipe(gulp.dest('./project'));
+gulp.task('build.img', ['build.index'], function() {
+  return gulp.src('./src/img/**')
+  .pipe(gulp.dest('./dist/img'));
+})
+
+gulp.task('build.index', ['clean'], function(){
+  return gulp.src('./index.html')
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('clean', function () {
+    return gulp.src('./dist')
+        .pipe(clean());
 });
 
 //发布
-gulp.task('default', ['webserver', 'webpack', 'build.index', 'script']);
+gulp.task('default', ['clean', 'webpack', 'build.index', 'build.img', 'script', 'webserver']);
 
 //测试
-gulp.task('dev', ['webserver', 'webpack', 'build.index', 'watch']);
+gulp.task('dev', ['clean', 'webpack', 'build.index', 'build.img', 'watch', 'webserver']);
