@@ -6,8 +6,10 @@ $ npm install
 2.本地调试
 ```git
 $ gulp dev
+$ node server.js
 ```
 3.发布
 ```git
-$ gulp 
+$ gulp build
+$ node server.js
 ```

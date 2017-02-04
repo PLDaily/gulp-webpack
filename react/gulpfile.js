@@ -31,13 +31,6 @@ gulp.task('script', ['webpack'], function() {
     .pipe(gulp.dest('./dist/js'))
 })
 
-gulp.task('webserver', ['build.index'], function() {
-  connect.server({
-    livereload: true,
-    root: './dist'
-  });
-});
-
 gulp.task('build.img', ['build.index'], function() {
   return gulp.src('./src/img/**')
   .pipe(gulp.dest('./dist/img'));
@@ -54,7 +47,7 @@ gulp.task('clean', function () {
 });
 
 //发布
-gulp.task('default', ['clean', 'webpack', 'build.index', 'build.img', 'script', 'webserver']);
+gulp.task('default', ['clean', 'webpack', 'build.index', 'build.img', 'script']);
 
 //测试
-gulp.task('dev', ['clean', 'webpack', 'build.index', 'build.img', 'watch', 'webserver']);
+gulp.task('dev', ['clean', 'webpack', 'build.index', 'build.img', 'watch']);

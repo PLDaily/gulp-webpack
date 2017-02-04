@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.14.1",
     "gulp-clean": "^0.3.2",
     "gulp-md5-plus": "^0.2.5",
     "react": "^15.3.2",
