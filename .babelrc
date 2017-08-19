@@ -1,0 +1,6 @@
+{
+  "presets": [
+    "env"
+  ],
+  "plugins": ["transform-runtime"],//用于Promise、Set、Map 等新增对象，Object.assign、Object.entries 等全局对象上的新增方法都不会转码
+}
