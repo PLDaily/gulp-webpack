@@ -36,13 +36,40 @@ url-loader是对file-loader的上层封装，url-loader可限制一定大小的�
 }
 ```
 
+> css单独打包
+
+使用extract-text-webpack-plugin插件对css进行单独打包，可通过@import引入外部css资源，不单独打包css加载时可能造成页面出错。
+
+> webpack-dev-server
+
+webpack-dev-server搭建一个测试的环境，并执行热更新，使用示例如下：
+
+
+
+```
+devServer: {
+	contentBase: resolve('dist'),
+	compress: true,
+	hot: true
+},
+plugins: [
+    new webpack.HotModuleReplacementPlugin()
+]
+```
+
+```
+"scripts": {
+   "start": "webpack-dev-server --open"
+}
+```
+
+> require与import的区别
+
+require/exports 出生在野生规范当中，什么叫做野生规范？即这些规范是 JavaScript 社区中的开发者自己草拟的规则，得到了大家的承认或者广泛的应用。比如 CommonJS、AMD、CMD 等等。import/export 则是名门正派。TC39 制定的新的 ECMAScript 版本，即 ES6（ES2015）中包含进来。[：https://www.zhihu.com/question/56820346/answer/150724784](：https://www.zhihu.com/question/56820346/answer/150724784)
+
 持续更新。。。
 
 1. Hash chunkhash
 2. 多个入口
-3. 导入外部css
-4. AMD COMMONJS require与import
-5. css单独打包
-6. webpack-dev-server
-7. PublicPath
-8. 不同环境区别
+3. PublicPath
+4. 不同环境区别
