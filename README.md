@@ -63,11 +63,71 @@ plugins: [
 
 > require与import的区别
 
-require/exports 出生在野生规范当中，什么叫做野生规范？即这些规范是 JavaScript 社区中的开发者自己草拟的规则，得到了大家的承认或者广泛的应用。比如 CommonJS、AMD、CMD 等等。import/export 则是名门正派。TC39 制定的新的 ECMAScript 版本，即 ES6（ES2015）中包含进来。[：https://www.zhihu.com/question/56820346/answer/150724784](：https://www.zhihu.com/question/56820346/answer/150724784)
+require/exports 出生在野生规范当中，什么叫做野生规范？即这些规范是 JavaScript 社区中的开发者自己草拟的规则，得到了大家的承认或者广泛的应用。比如 CommonJS、AMD、CMD 等等。import/export 则是名门正派。TC39 制定的新的 ECMAScript 版本，即 ES6（ES2015）中包含进来。[https://www.zhihu.com/question/56820346/answer/150724784](https://www.zhihu.com/question/56820346/answer/150724784)
+
+> 设置别名
+
+```
+import Index from '@/components/Index'
+```
+
+项目中通过'@components/Index'导入，可在webpack中设置别名
+
+```
+{
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('src'),
+      '~': resolve('src/components')
+    }
+  }
+}
+```
+
+> 多个入口
+
+- 俩个文件不含公共代码时
+
+```
+module.exports={ 
+	entry:{
+		a:"./src/a/a.js",
+		b:"./src/b/b.js"
+	}, 
+	output:{ 
+		path:path.resolve(__dirname ,"dist/js"), 
+		filename:"[name].js" 
+	}
+}
+```
+
+- 俩个文件包含公共代码时
+
+```
+var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+var path=require("path"); 
+module.exports={ 
+	entry:{
+		a:"./src/a/a.js",
+		b:"./src/b/b.js"
+	}, 
+	output:{ 
+		path:path.resolve(__dirname ,"dist/js"), 
+		filename:"[name].js" 
+	}, 
+	plugins:[ new CommonsChunkPlugin({name:"common"}) ]
+}
+```
+
+> hash与chunkhash
+
+- 使用hash三个js文件任何一个改动都会影响另外两个文件的最终文件名。上线后，另外两个文件的浏览器缓存也全部失效。
+- chunkhash只会改变修改的文件的hash
+- 如何在css单独打包，在修改css时不修改js的hash，在修改js时不修改css的hash？
 
 持续更新。。。
 
-1. Hash chunkhash
-2. 多个入口
-3. PublicPath
-4. 不同环境区别
+1. PublicPath
+2. 不同环境区别
