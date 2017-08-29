@@ -125,9 +125,10 @@ module.exports={
 
 - 使用hash三个js文件任何一个改动都会影响另外两个文件的最终文件名。上线后，另外两个文件的浏览器缓存也全部失效。
 - chunkhash只会改变修改的文件的hash
-- 如何在css单独打包，在修改css时不修改js的hash，在修改js时不修改css的hash？
 
 持续更新。。。
 
 1. PublicPath
 2. 不同环境区别
+3. npm包依赖不同版本如何处理
+4. 如何在css单独打包，在修改css时不修改js的hash，在修改js时不修改css的hash？
