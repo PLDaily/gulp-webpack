@@ -126,9 +126,45 @@ module.exports={
 - 使用hash三个js文件任何一个改动都会影响另外两个文件的最终文件名。上线后，另外两个文件的浏览器缓存也全部失效。
 - chunkhash只会改变修改的文件的hash
 
+> webpack依赖相同的包是否重复打包
+
+webpack会给每个依赖的模块一个moduleid，当依赖相同的包时只引用相对应的包id，不会重复id。
+
+例: index.js依赖util1.js与util2.js，util1.js依赖util2.js。
+
+```js
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var util1 = __webpack_require__(2)
+	var util2 = __webpack_require__(3)
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var util2 = __webpack_require__(3)
+	module.exports = {"name": "util1.js"}
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+	module.exports = {"name": "util2.js"}
+
+
+/***/ })
+```
+
+moduleid1为index.js，moduleid2为util1.js，moduleid3为util2.js，index.js依赖util1.js与util2.js引入module2跟module3，util1.js依赖util2.js则引入module3，util2.js为module3，不会重复打包。
+
 持续更新。。。
 
 1. PublicPath
 2. 不同环境区别
-3. npm包依赖不同版本如何处理
+3. 测试包到npm上，该包包含了lodash，webpack打包时在入口文件entry.js中引入了该测试包和lodash发现打包后的文件lodash被引入了俩次 ，如果是不同版本的lodash如何处理
+   - module.exports = {_ : lodash}导出
+   - CommonsChunkPlugin
+   - [参考](https://cnodejs.org/topic/5867bb575eac96bb04d3e301)
 4. 如何在css单独打包，在修改css时不修改js的hash，在修改js时不修改css的hash？
+
