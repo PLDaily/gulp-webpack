@@ -158,6 +158,12 @@ webpack会给每个依赖的模块一个moduleid，当依赖相同的包时只�
 
 moduleid1为index.js，moduleid2为util1.js，moduleid3为util2.js，index.js依赖util1.js与util2.js引入module2跟module3，util1.js依赖util2.js则引入module3，util2.js为module3，不会重复打包。
 
+> Babel-runtime与Babel-polyfill的区别
+
+- Babel默认只会转化新的JS语法，对于新的api不会进行转化，例全局对象（Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise 等）以及一些全局对象上的方法（ Object.assign等）。如果需要使用这些方法和对象，必须使用Babel-polyfill为当前环境提供一个垫片
+- Babel-polyfill会使一些帮助函数重复出现在一些模块中，造成编译后的代码体积变大。Promise等可直接在全局中使用
+- Babel-runtime提供编译模块复用工具函数，减少代码体积，Babel-runtime/helps 下的工具函数自动引用了 polyfill，避免全局变量污染
+
 持续更新。。。
 
 1. PublicPath
